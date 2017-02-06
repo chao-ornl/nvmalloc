@@ -18,7 +18,7 @@ void read_ssd_info() {
 	FILE *fp;
 
         struct stat st;
-        if (!stat(CONFIG_FILE, &st) == 0){
+        if ((!stat(CONFIG_FILE, &st)) == 0){
                 perror ("The SSD config file does not exist.\n");
 	}
 

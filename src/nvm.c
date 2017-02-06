@@ -1,8 +1,11 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 #include "nvm.h"
+
+int get_file_index(void);
 
 void check_nvm_device(char *str)
 {
@@ -113,7 +116,7 @@ void *nvm_realloc(void *var, size_t size)
 	}
 	else if ((var != NULL) && (size == 0)) {
 		nvm_free(var);
-		return;
+		return NULL;
 	}
 
 
@@ -198,7 +201,7 @@ void nvm_free(void *ptr)
 
 unsigned int f_idx = 0;
 
-int get_file_index()
+int get_file_index(void)
 {
 	f_idx++;	
 
