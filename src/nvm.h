@@ -12,7 +12,7 @@
 #include <time.h>
 
 #define MAX_OPEN_FILE_CNT 1048576
-#define MAX_FILE_INDEX_LIMIT 1048576 // 1024*1024
+#define MAX_FILE_INDEX_LIMIT 1048576 /* 1024*1024 */
 
 #define BUFFER_SIZE 4096
 
@@ -29,11 +29,11 @@ extern void nvm_free(void *ptr);
 #define realloc nvm_realloc
 #define free nvm_free
 
-// for namespace
+/* For namespace */
 typedef struct{
 	long int addr;
 	int fd;	
-	//char *fname;
+	/*char *fname;*/
 	char fname[80];
 	int flag;
 	int size;
@@ -51,7 +51,7 @@ int return_variable_size_to_addr( long int addr );
 void update_name_space( char *file_name, int file_size, long int addr);
 void print_all_name_space_info();
 
-// interface for ssd information: start
+/* interface for ssd information: start */
 
 /*
  * Each SSD device has a section in the config file as follow:
@@ -70,17 +70,17 @@ struct ssd_info{
 	char name[64];
 	char device[64];
 	char mountdir[64];
-	char fs[48]; // length of "fs" could be smaller
+	char fs[48]; /* length of "fs" could be smaller */
 	struct ssd_info *prev;
 	struct ssd_info *next;
-} ssd_info;           // but try to make the size of the struct be 2^x
+} ssd_info;           /* but try to make the size of the struct be 2^x */
 
 struct ssd_info *ssd_head;
 struct ssd_info *ssd_tail;
 
 extern void read_ssd_info();
 extern void release_ssd_info();
-// interface for ssd information: end
+/* interface for ssd information: end */
 
 
 #endif
