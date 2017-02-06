@@ -26,9 +26,9 @@ void nvm_exit(){
 }
 
 
-///////////////////////////////////////////////////////////////////
-// nvm_malloc
-///////////////////////////////////////////////////////////////////
+/*****************************************************************
+ * nvm_malloc
+ *****************************************************************/
 
 #define size_align 4096
 
@@ -41,13 +41,13 @@ void *nvm_malloc(size_t size)
 
 	size_t variable_size = roundsize(size);
 
-	(void) check_nvm_device(ssd_head->mountdir); // by default, use the first SSD
+	(void) check_nvm_device(ssd_head->mountdir); /* by default, use the first SSD */
 	unsigned int tmp = get_file_index();
 
 	char f_name[80];
-	sprintf(f_name, "%s%s%d", ssd_head->mountdir, "/file_", tmp); // by default, use the first SSD
+	sprintf(f_name, "%s%s%d", ssd_head->mountdir, "/file_", tmp); /* by default, use the first SSD */
 
-	// check if a file exists 
+	/* check if a file exists */
 	if ( access ( f_name, F_OK ) != -1 ) { perror ("File exist !!!"); printf("%s\n", f_name); exit(0); }
 
 	int fd = open (f_name, O_RDWR | O_CREAT, 0666);
@@ -70,18 +70,18 @@ void *nvm_malloc(size_t size)
 
 	close(fd);
 
-	// register variable in name space 
+	/* register variable in name space */
 	register_name_space( (long int) addr, fd, f_name, variable_size);
 
 	return (void *) (addr);
 }
 #define malloc nvm_malloc
 
-///////////////////////////////////////////////////////////////////
-// nvm_calloc
-///////////////////////////////////////////////////////////////////
+/******************************************************************
+ * nvm_calloc
+ ******************************************************************/
 
-//#undef calloc
+/*#undef calloc*/
 void *nvm_calloc(size_t nmemb, size_t size)
 {
 	void *addr = nvm_malloc(nmemb * size);
@@ -94,11 +94,11 @@ void *nvm_calloc(size_t nmemb, size_t size)
 
 	return addr;
 }
-//#define calloc nvm_calloc
+/*#define calloc nvm_calloc*/
 
-///////////////////////////////////////////////////////////////////
-// nvm_realloc 
-///////////////////////////////////////////////////////////////////
+/******************************************************************
+ * nvm_realloc 
+ ******************************************************************/
 
 #undef malloc 
 void *nvm_realloc(void *var, size_t size)
@@ -122,8 +122,8 @@ void *nvm_realloc(void *var, size_t size)
 
 	size_t variable_size = roundsize(size);
 
-	// check nvm sandbox	
-	(void) check_nvm_device(ssd_head->mountdir); // by default, use the first SSD
+	/* check nvm sandbox */
+	(void) check_nvm_device(ssd_head->mountdir); /* by default, use the first SSD */
 
 
 	char *file_name = (char *) malloc ( sizeof(char) * 80 );
@@ -162,9 +162,9 @@ void *nvm_realloc(void *var, size_t size)
 }
 #define malloc nvm_malloc
 
-///////////////////////////////////////////////////////////////////
-// nvm_free
-///////////////////////////////////////////////////////////////////
+/******************************************************************
+ * nvm_free
+ ******************************************************************/
 
 #undef free
 void nvm_free(void *ptr)
@@ -186,7 +186,7 @@ void nvm_free(void *ptr)
 			exit(0);
 		}
 	
-		// de-redister variable
+		/* de-redister variable */
 		tmp = unregister_name_space ( (long int) ptr);
 
 		unlink(tmp->fname);
@@ -195,9 +195,9 @@ void nvm_free(void *ptr)
 }
 #define free nvm_free
 
-///////////////////////////////////////////////////////////////////
-// Auxiliary functions
-///////////////////////////////////////////////////////////////////
+/******************************************************************
+ * Auxiliary functions
+ ******************************************************************/
 
 unsigned int f_idx = 0;
 
@@ -212,3 +212,4 @@ int get_file_index(void)
 
 	return f_idx;
 }
+

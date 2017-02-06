@@ -2,7 +2,7 @@
 CC = gcc
 AR = ar
 
-CFLAGS = -std=c90 -I.
+CFLAGS = -std=c90 -I. -fPIC
 
 SRC=./src
 
