@@ -97,7 +97,7 @@ void *nvm_calloc(size_t nmemb, size_t size)
 // nvm_realloc 
 ///////////////////////////////////////////////////////////////////
 
-#undef malloc 
+#undef realloc 
 void *nvm_realloc(void *var, size_t size)
 {
 	if ( var == NULL ) {
@@ -157,7 +157,7 @@ void *nvm_realloc(void *var, size_t size)
 
 	return var_addr;
 }
-#define malloc nvm_malloc
+#define realloc nvm_realloc
 
 ///////////////////////////////////////////////////////////////////
 // nvm_free
@@ -174,7 +174,7 @@ void nvm_free(void *ptr)
 
 	if (variable_size == -1) {
 		perror("nam_free tries to free a memory not allocated before\n");
-		exit(0);		
+		exit(0);
 	}
 	else{
 
